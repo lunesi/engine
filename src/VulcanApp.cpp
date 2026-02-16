@@ -1,4 +1,6 @@
 #include "VulcanApp.hpp"
+#include "lve_pipeline.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
@@ -9,37 +11,16 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
-// --- ИНИЦИАЛИЗАЦИЯ ОКНА ---
-void VulcanApp::initWindow() {
-  if (!glfwInit()) {
-    throw std::runtime_error("Failed to initialize GLFW");
-  }
-
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // Отключаем OpenGL
-  glfwWindowHint(GLFW_RESIZABLE,
-                 GLFW_FALSE); // Фиксированный размер для стабильности
-  glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE); // Явно просим показать окно
-
-  window = glfwCreateWindow(800, 600, "Vulkan Engine - Pure", nullptr, nullptr);
-
-  if (!window) {
-    throw std::runtime_error("Failed to create GLFW Window");
-  }
-
-  // Небольшой "пинок" для оконного менеджера Linux
-  glfwShowWindow(window);
-  glfwFocusWindow(window);
-}
-
 // --- ИНИЦИАЛИЗАЦИЯ VULKAN ---
 void VulcanApp::initVulkan() {
   createInstance();
-  createSurface(); // Поверхность СРАЗУ после инстанса
+  createSurface(); // Поверхность создается СРАЗУ после инстанса
   pickPhysicalDevice();
   createLogicalDevice();
   createSwapChain();
   createImageViews();
   createRenderPass();
+  createPipelineLayout();
   createGraphicsPipeline();
   createFramebuffers();
   createCommandPool();
@@ -55,6 +36,7 @@ void VulcanApp::createInstance() {
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
 
+  // Получаем необходимые расширения для работы с окном через GLFW
   uint32_t glfwExtensionCount = 0;
   const char **glfwExtensions =
       glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -70,7 +52,7 @@ void VulcanApp::pickPhysicalDevice() {
   uint32_t deviceCount = 0;
   vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
   if (deviceCount == 0)
-    throw std::runtime_error("failed to find GPU");
+    throw std::runtime_error("failed to find GPU with Vulkan support!");
 
   std::vector<VkPhysicalDevice> devices(deviceCount);
   vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
@@ -109,10 +91,8 @@ void VulcanApp::createLogicalDevice() {
 }
 
 void VulcanApp::createSurface() {
-  if (glfwCreateWindowSurface(instance, window, nullptr, &surface) !=
-      VK_SUCCESS) {
-    throw std::runtime_error("failed to create window surface!");
-  }
+  // Делегируем создание поверхности нашему классу окна
+  lveWindow.createWindowSurface(instance, &surface);
 }
 
 void VulcanApp::createSwapChain() {
@@ -120,11 +100,12 @@ void VulcanApp::createSwapChain() {
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface,
                                             &capabilities);
 
+  // Выбираем разрешение экрана
   if (capabilities.currentExtent.width !=
       std::numeric_limits<uint32_t>::max()) {
     swapChainExtent = capabilities.currentExtent;
   } else {
-    swapChainExtent = {800, 600};
+    swapChainExtent = {WIDTH, HEIGHT};
   }
 
   swapChainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
@@ -170,7 +151,10 @@ void VulcanApp::createImageViews() {
     createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
     createInfo.format = swapChainImageFormat;
     createInfo.subresourceRange = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1};
-    vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]);
+    if (vkCreateImageView(device, &createInfo, nullptr,
+                          &swapChainImageViews[i]) != VK_SUCCESS) {
+      throw std::runtime_error("failed to create image views!");
+    }
   }
 }
 
@@ -215,7 +199,10 @@ void VulcanApp::createFramebuffers() {
     fbInfo.width = swapChainExtent.width;
     fbInfo.height = swapChainExtent.height;
     fbInfo.layers = 1;
-    vkCreateFramebuffer(device, &fbInfo, nullptr, &swapChainFramebuffers[i]);
+    if (vkCreateFramebuffer(device, &fbInfo, nullptr,
+                            &swapChainFramebuffers[i]) != VK_SUCCESS) {
+      throw std::runtime_error("failed to create framebuffer!");
+    }
   }
 }
 
@@ -224,7 +211,10 @@ void VulcanApp::createCommandPool() {
   poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
   poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
   poolInfo.queueFamilyIndex = findGraphicsQueueFamily();
-  vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
+  if (vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool) !=
+      VK_SUCCESS) {
+    throw std::runtime_error("failed to create command pool!");
+  }
 }
 
 void VulcanApp::createCommandBuffers() {
@@ -234,13 +224,17 @@ void VulcanApp::createCommandBuffers() {
   allocInfo.commandPool = commandPool;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
-  vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
+  if (vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data()) !=
+      VK_SUCCESS) {
+    throw std::runtime_error("failed to allocate command buffers!");
+  }
 }
 
 // --- ОТРИСОВКА ---
 void VulcanApp::drawFrame() {
   uint32_t imageIndex;
 
+  // Считаем время для Push Constants
   static auto startTime = std::chrono::high_resolution_clock::now();
   auto currentTime = std::chrono::high_resolution_clock::now();
   float time = std::chrono::duration<float, std::chrono::seconds::period>(
@@ -248,7 +242,6 @@ void VulcanApp::drawFrame() {
                    .count();
   float angle = time * 2.0f;
 
-  // Ожидаем изображение из свопчейна
   VkResult result =
       vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, VK_NULL_HANDLE,
                             VK_NULL_HANDLE, &imageIndex);
@@ -277,13 +270,13 @@ void VulcanApp::drawFrame() {
   vkCmdBeginRenderPass(commandBuffers[imageIndex], &rpInfo,
                        VK_SUBPASS_CONTENTS_INLINE);
 
-  vkCmdBindPipeline(commandBuffers[imageIndex], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                    graphicsPipeline);
+  LvePipeline->bind(commandBuffers[imageIndex]);
 
+  // Передаем угол в шейдер
   vkCmdPushConstants(commandBuffers[imageIndex], pipelineLayout,
                      VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &angle);
 
-  vkCmdDraw(commandBuffers[imageIndex], 3, 1, 0, 0); // Рисуем 3 вершины
+  vkCmdDraw(commandBuffers[imageIndex], 3, 1, 0, 0);
 
   vkCmdEndRenderPass(commandBuffers[imageIndex]);
 
@@ -304,17 +297,15 @@ void VulcanApp::drawFrame() {
 
   vkQueuePresentKHR(graphicsQueue, &presentInfo);
 
-  // Важно для стабильности на AMD: ждем завершения операций на GPU
+  // Ждем GPU (чтобы не перегружать очереди)
   vkDeviceWaitIdle(device);
 }
 
 void VulcanApp::mainLoop() {
-  std::cout << "--- Main Loop Started ---" << std::endl;
-  while (!glfwWindowShouldClose(window)) {
+  while (!lveWindow.shouldClose()) {
     glfwPollEvents();
     drawFrame();
   }
-  std::cout << "--- Main Loop Ended ---" << std::endl;
 }
 
 void VulcanApp::cleanup() {
@@ -325,15 +316,18 @@ void VulcanApp::cleanup() {
   vkDestroyRenderPass(device, renderPass, nullptr);
   for (auto iv : swapChainImageViews)
     vkDestroyImageView(device, iv, nullptr);
-  vkDestroyCommandPool(device, commandPool, nullptr);
+
+  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
   vkDestroySwapchainKHR(device, swapChain, nullptr);
   vkDestroyDevice(device, nullptr);
+
   vkDestroySurfaceKHR(instance, surface, nullptr);
   vkDestroyInstance(instance, nullptr);
 
-  glfwDestroyWindow(window);
-  glfwTerminate();
+  // Окно удалится автоматически при выходе из области видимости
 }
+
+// --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
 
 uint32_t VulcanApp::findGraphicsQueueFamily() {
   uint32_t count = 0;
@@ -348,136 +342,18 @@ uint32_t VulcanApp::findGraphicsQueueFamily() {
   return 0;
 }
 
-// Вспомогательная функция для чтения файлов
-std::vector<char> VulcanApp::readFile(const std::string &filename) {
-  std::ifstream file(filename, std::ios::ate | std::ios::binary);
-  if (!file.is_open())
-    throw std::runtime_error("failed to open file!");
-  size_t fileSize = (size_t)file.tellg();
-  std::vector<char> buffer(fileSize);
-  file.seekg(0);
-  file.read(buffer.data(), fileSize);
-  file.close();
-  return buffer;
-}
-
-VkShaderModule VulcanApp::createShaderModule(const std::vector<char> &code) {
-  VkShaderModuleCreateInfo createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-  createInfo.codeSize = code.size();
-  createInfo.pCode = reinterpret_cast<const uint32_t *>(code.data());
-  VkShaderModule shaderModule;
-  if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) !=
-      VK_SUCCESS) {
-    throw std::runtime_error("failed to create shader module!");
-  }
-  return shaderModule;
-}
-
 void VulcanApp::createGraphicsPipeline() {
+  auto pipelineConfig = lve::LvePipeline::defaultPipelineConfigInfo(
+      swapChainExtent.width, swapChainExtent.height);
 
-  auto vertShaderCode = readFile("shaders/vert.spv");
-  auto fragShaderCode = readFile("shaders/frag.spv");
+  pipelineConfig.renderPass = renderPass;
+  pipelineConfig.pipelineLayout = pipelineLayout;
 
-  // 2. Создаем модули шейдеров (временные объекты для GPU)
-  VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
-  VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+  LvePipeline = std::make_unique<lve::LvePipeline>(
+      device, "shaders/vert.spv", "shaders/frag.spv", pipelineConfig);
+}
 
-  // 3. Настраиваем этап вершинного шейдера
-  VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
-  vertShaderStageInfo.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-  vertShaderStageInfo.module = vertShaderModule;
-  vertShaderStageInfo.pName = "main"; // Имя функции в шейдере
-
-  // 4. Настраиваем этап фрагментного шейдера
-  VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
-  fragShaderStageInfo.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-  fragShaderStageInfo.module = fragShaderModule;
-  fragShaderStageInfo.pName = "main";
-
-  VkPipelineShaderStageCreateInfo shaderStages[] = {vertShaderStageInfo,
-                                                    fragShaderStageInfo};
-
-  // 5. Описываем формат вершин (у нас они зашиты в шейдер, поэтому пусто)
-  VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
-  vertexInputInfo.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertexInputInfo.vertexBindingDescriptionCount = 0;
-  vertexInputInfo.vertexAttributeDescriptionCount = 0;
-
-  // 6. Описываем топологию (рисуем треугольники)
-  VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
-  inputAssembly.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-  inputAssembly.primitiveRestartEnable = VK_FALSE;
-
-  // 7. Настраиваем вьюпорт (куда именно на экране выводить картинку)
-  VkViewport viewport{};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width = (float)swapChainExtent.width;
-  viewport.height = (float)swapChainExtent.height;
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
-
-  VkRect2D scissor{};
-  scissor.offset = {0, 0};
-  scissor.extent = swapChainExtent;
-
-  VkPipelineViewportStateCreateInfo viewportState{};
-  viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-  viewportState.viewportCount = 1;
-  viewportState.pViewports = &viewport;
-  viewportState.scissorCount = 1;
-  viewportState.pScissors = &scissor;
-
-  // 8. Растеризатор (превращает геометрию в пиксели)
-  VkPipelineRasterizationStateCreateInfo rasterizer{};
-  rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-  rasterizer.depthClampEnable = VK_FALSE;
-  rasterizer.rasterizerDiscardEnable = VK_FALSE;
-  rasterizer.polygonMode = VK_POLYGON_MODE_FILL; // Заливка цветом
-  rasterizer.lineWidth = 1.0f;
-  rasterizer.cullMode = VK_CULL_MODE_BACK_BIT; // Не рисовать задние грани
-  rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
-  rasterizer.depthBiasEnable = VK_FALSE;
-
-  // 9. Multisampling (Антиалиасинг) — ТУТ БЫЛ ВЫЛЕТ, ЗАПОЛНЯЕМ ПОЛНОСТЬЮ
-  VkPipelineMultisampleStateCreateInfo multisampling{};
-  multisampling.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-  multisampling.sampleShadingEnable = VK_FALSE;
-  multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-  multisampling.minSampleShading = 1.0f;
-  multisampling.pSampleMask = nullptr;
-  multisampling.alphaToCoverageEnable = VK_FALSE;
-  multisampling.alphaToOneEnable = VK_FALSE;
-
-  // 10. Смешивание цветов (Blend)
-  VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-  colorBlendAttachment.colorWriteMask =
-      VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-      VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-  colorBlendAttachment.blendEnable = VK_FALSE; // Пока просто заменяем пиксели
-
-  VkPipelineColorBlendStateCreateInfo colorBlending{};
-  colorBlending.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-  colorBlending.logicOpEnable = VK_FALSE;
-  colorBlending.logicOp = VK_LOGIC_OP_COPY;
-  colorBlending.attachmentCount = 1;
-  colorBlending.pAttachments = &colorBlendAttachment;
-  colorBlending.blendConstants[0] = 0.0f;
-  colorBlending.blendConstants[1] = 0.0f;
-  colorBlending.blendConstants[2] = 0.0f;
-  colorBlending.blendConstants[3] = 0.0f;
-
-  // 11. Pipeline Layout (настройки ресурсов для шейдеров)
+void VulcanApp::createPipelineLayout() {
   VkPushConstantRange pushConstantRange{};
   pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
   pushConstantRange.offset = 0;
@@ -492,33 +368,6 @@ void VulcanApp::createGraphicsPipeline() {
 
   if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr,
                              &pipelineLayout) != VK_SUCCESS) {
-    throw std::runtime_error("Failed to create pipeline layout.");
+    throw std::runtime_error("Failed to create Pipeline Layout.");
   }
-  // 12. ФИНАЛЬНАЯ СБОРКА
-  VkGraphicsPipelineCreateInfo pipelineInfo{};
-  pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  pipelineInfo.stageCount = 2;
-  pipelineInfo.pStages = shaderStages;
-  pipelineInfo.pVertexInputState = &vertexInputInfo;
-  pipelineInfo.pInputAssemblyState = &inputAssembly;
-  pipelineInfo.pViewportState = &viewportState;
-  pipelineInfo.pRasterizationState = &rasterizer;
-  pipelineInfo.pMultisampleState = &multisampling; // Теперь не nullptr
-  pipelineInfo.pDepthStencilState = nullptr;
-  pipelineInfo.pColorBlendState = &colorBlending; // Теперь не nullptr
-  pipelineInfo.pDynamicState = nullptr;
-  pipelineInfo.layout = pipelineLayout;
-  pipelineInfo.renderPass = renderPass;
-  pipelineInfo.subpass = 0;
-  pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
-  pipelineInfo.basePipelineIndex = -1;
-
-  if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo,
-                                nullptr, &graphicsPipeline) != VK_SUCCESS) {
-    throw std::runtime_error("failed to create graphics pipeline!");
-  }
-
-  // 13. Удаляем модули шейдеров (они уже запечены в Pipeline)
-  vkDestroyShaderModule(device, fragShaderModule, nullptr);
-  vkDestroyShaderModule(device, vertShaderModule, nullptr);
 }

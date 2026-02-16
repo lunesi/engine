@@ -25,6 +25,8 @@ set(IMGUI_SOURCES
 add_executable(engine
     src/main.cpp
     src/VulcanApp.cpp
+    src/lve_window.cpp
+    src/lve_pipeline.cpp
     ${IMGUI_SOURCES}
 )
 

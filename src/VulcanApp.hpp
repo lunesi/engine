@@ -1,27 +1,31 @@
 #pragma once
-#include <vulkan/vulkan_core.h>
-#define GLFW_INCLUDE_VULCAN
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_vulkan.h"
-#include <GLFW/glfw3.h>
+#include "lve_pipeline.hpp"
+#include "lve_window.hpp"
 #include <cstdint>
 #include <iostream>
+#include <memory>
 #include <optional>
 #include <stdexcept>
 #include <vector>
 #include <vulkan/vulkan.h>
+#include <vulkan/vulkan_core.h>
+
+const uint32_t WIDTH = 800;
+const uint32_t HEIGHT = 600;
+
 class VulcanApp {
 public:
   void run() {
-    initWindow();
     initVulkan();
     mainLoop();
     cleanup();
   }
 
 private:
-  GLFWwindow *window;
+  lve::LveWindow lveWindow{WIDTH, HEIGHT, "Vulkan Engine"};
   VkInstance instance;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
   VkDevice device;
@@ -41,7 +45,7 @@ private:
   VkDescriptorPool imguiPool;
 
   VkPipelineLayout pipelineLayout;
-  VkPipeline graphicsPipeline;
+  std::unique_ptr<lve::LvePipeline> LvePipeline;
   void createGraphicsPipeline();
   static std::vector<char> readFile(const std::string &fileName);
   VkShaderModule createShaderModule(const std::vector<char> &code);
@@ -59,6 +63,7 @@ private:
   void createImageView();
   void createImageViews();
   void createRenderPass();
+  void createPipelineLayout();
   void createFramebuffers();
   void createCommandPool();
   void createCommandBuffers();
