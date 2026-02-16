@@ -1,6 +1,7 @@
 #include "VulcanApp.hpp"
 #include <cstdlib>
 #include <exception>
+#include <iostream>
 
 int main() {
   VulcanApp app;

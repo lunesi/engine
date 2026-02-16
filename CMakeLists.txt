@@ -27,6 +27,7 @@ add_executable(engine
     src/VulcanApp.cpp
     src/lve_window.cpp
     src/lve_pipeline.cpp
+    src/lve_model.cpp
     ${IMGUI_SOURCES}
 )
 
@@ -40,6 +41,10 @@ target_include_directories(engine PRIVATE
 
 
 target_link_libraries(engine PRIVATE Vulkan::Vulkan glfw)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 if(WIN32)
     target_link_libraries(engine PRIVATE user32 gdi32 shell32)

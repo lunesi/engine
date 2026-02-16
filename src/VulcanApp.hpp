@@ -1,14 +1,9 @@
 #pragma once
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_vulkan.h"
+#include "lve_model.hpp"
 #include "lve_pipeline.hpp"
 #include "lve_window.hpp"
 #include <cstdint>
-#include <iostream>
 #include <memory>
-#include <optional>
-#include <stdexcept>
 #include <vector>
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
@@ -50,6 +45,8 @@ private:
   static std::vector<char> readFile(const std::string &fileName);
   VkShaderModule createShaderModule(const std::vector<char> &code);
 
+  std::unique_ptr<lve::LveModel> lveModel;
+
   void initWindow();
   void initVulkan();
   void mainLoop();
@@ -64,6 +61,7 @@ private:
   void createImageViews();
   void createRenderPass();
   void createPipelineLayout();
+  void loadModels();
   void createFramebuffers();
   void createCommandPool();
   void createCommandBuffers();

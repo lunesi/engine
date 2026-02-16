@@ -1,4 +1,5 @@
 #include "VulcanApp.hpp"
+#include "lve_model.hpp"
 #include "lve_pipeline.hpp"
 
 #include <algorithm>
@@ -11,16 +12,16 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
-// --- ИНИЦИАЛИЗАЦИЯ VULKAN ---
 void VulcanApp::initVulkan() {
   createInstance();
-  createSurface(); // Поверхность создается СРАЗУ после инстанса
+  createSurface();
   pickPhysicalDevice();
   createLogicalDevice();
   createSwapChain();
   createImageViews();
   createRenderPass();
   createPipelineLayout();
+  loadModels();
   createGraphicsPipeline();
   createFramebuffers();
   createCommandPool();
@@ -36,7 +37,6 @@ void VulcanApp::createInstance() {
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
 
-  // Получаем необходимые расширения для работы с окном через GLFW
   uint32_t glfwExtensionCount = 0;
   const char **glfwExtensions =
       glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -91,7 +91,6 @@ void VulcanApp::createLogicalDevice() {
 }
 
 void VulcanApp::createSurface() {
-  // Делегируем создание поверхности нашему классу окна
   lveWindow.createWindowSurface(instance, &surface);
 }
 
@@ -100,7 +99,6 @@ void VulcanApp::createSwapChain() {
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface,
                                             &capabilities);
 
-  // Выбираем разрешение экрана
   if (capabilities.currentExtent.width !=
       std::numeric_limits<uint32_t>::max()) {
     swapChainExtent = capabilities.currentExtent;
@@ -230,11 +228,9 @@ void VulcanApp::createCommandBuffers() {
   }
 }
 
-// --- ОТРИСОВКА ---
 void VulcanApp::drawFrame() {
   uint32_t imageIndex;
 
-  // Считаем время для Push Constants
   static auto startTime = std::chrono::high_resolution_clock::now();
   auto currentTime = std::chrono::high_resolution_clock::now();
   float time = std::chrono::duration<float, std::chrono::seconds::period>(
@@ -271,12 +267,10 @@ void VulcanApp::drawFrame() {
                        VK_SUBPASS_CONTENTS_INLINE);
 
   LvePipeline->bind(commandBuffers[imageIndex]);
-
-  // Передаем угол в шейдер
+  lveModel->bind(commandBuffers[imageIndex]);
+  lveModel->draw(commandBuffers[imageIndex]);
   vkCmdPushConstants(commandBuffers[imageIndex], pipelineLayout,
                      VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &angle);
-
-  vkCmdDraw(commandBuffers[imageIndex], 3, 1, 0, 0);
 
   vkCmdEndRenderPass(commandBuffers[imageIndex]);
 
@@ -297,7 +291,6 @@ void VulcanApp::drawFrame() {
 
   vkQueuePresentKHR(graphicsQueue, &presentInfo);
 
-  // Ждем GPU (чтобы не перегружать очереди)
   vkDeviceWaitIdle(device);
 }
 
@@ -323,11 +316,7 @@ void VulcanApp::cleanup() {
 
   vkDestroySurfaceKHR(instance, surface, nullptr);
   vkDestroyInstance(instance, nullptr);
-
-  // Окно удалится автоматически при выходе из области видимости
 }
-
-// --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
 
 uint32_t VulcanApp::findGraphicsQueueFamily() {
   uint32_t count = 0;
@@ -370,4 +359,14 @@ void VulcanApp::createPipelineLayout() {
                              &pipelineLayout) != VK_SUCCESS) {
     throw std::runtime_error("Failed to create Pipeline Layout.");
   }
+}
+
+void VulcanApp::loadModels() {
+  std::vector<lve::LveModel::Vertex> vertices{
+      {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+      {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+      {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+
+  };
+  lveModel = std::make_unique<lve::LveModel>(physicalDevice, device, vertices);
 }
