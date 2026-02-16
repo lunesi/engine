@@ -2,27 +2,18 @@ CMakeFiles/engine.dir/src/VulcanApp.cpp.o: \
  /home/siwagik/Projects/engine/src/VulcanApp.cpp \
  /usr/include/stdc-predef.h \
  /home/siwagik/Projects/engine/src/VulcanApp.hpp \
- /home/siwagik/Projects/engine/external/imgui/imgui.h \
- /home/siwagik/Projects/engine/external/imgui/imconfig.h \
- /usr/lib/gcc/x86_64-redhat-linux/15/include/float.h \
- /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
+ /usr/include/vulkan/vulkan_core.h /usr/include/vulkan/vk_platform.h \
  /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h \
- /usr/include/string.h /usr/include/bits/libc-header-start.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/stdint.h \
+ /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
  /usr/include/sys/cdefs.h /usr/include/bits/long-double.h \
  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
- /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
- /usr/include/strings.h /usr/include/assert.h \
- /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_glfw.h \
- /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_vulkan.h \
- /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
- /usr/lib/gcc/x86_64-redhat-linux/15/include/stdint.h \
- /usr/include/stdint.h /usr/include/bits/types.h \
- /usr/include/bits/typesizes.h /usr/include/bits/time64.h \
- /usr/include/bits/wchar.h /usr/include/bits/stdint-intn.h \
- /usr/include/bits/stdint-uintn.h /usr/include/bits/stdint-least.h \
- /usr/include/vulkan/vulkan_core.h \
+ /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+ /usr/include/bits/time64.h /usr/include/bits/wchar.h \
+ /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
+ /usr/include/bits/stdint-least.h \
  /usr/include/vk_video/vulkan_video_codec_h264std.h \
  /usr/include/vk_video/vulkan_video_codecs_common.h \
  /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -39,6 +30,16 @@ CMakeFiles/engine.dir/src/VulcanApp.cpp.o: \
  /usr/include/vk_video/vulkan_video_codec_vp9std.h \
  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h \
  /usr/include/vk_video/vulkan_video_codec_vp9std.h \
+ /home/siwagik/Projects/engine/external/imgui/imgui.h \
+ /home/siwagik/Projects/engine/external/imgui/imconfig.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/float.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
+ /usr/include/string.h /usr/include/bits/types/locale_t.h \
+ /usr/include/bits/types/__locale_t.h /usr/include/strings.h \
+ /usr/include/assert.h \
+ /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_glfw.h \
+ /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_vulkan.h \
+ /usr/include/vulkan/vulkan.h /usr/include/vulkan/vulkan_core.h \
  /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h /usr/include/c++/15/cstdint \
  /usr/include/c++/15/x86_64-redhat-linux/bits/c++config.h \
@@ -175,4 +176,8 @@ CMakeFiles/engine.dir/src/VulcanApp.cpp.o: \
  /usr/include/c++/15/bits/uniform_int_dist.h \
  /usr/include/c++/15/bits/stl_tempbuf.h \
  /usr/include/c++/15/pstl/glue_algorithm_defs.h \
- /usr/include/c++/15/pstl/execution_defs.h /usr/include/c++/15/limits
+ /usr/include/c++/15/pstl/execution_defs.h /usr/include/c++/15/fstream \
+ /usr/include/c++/15/bits/codecvt.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/basic_file.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/c++io.h \
+ /usr/include/c++/15/bits/fstream.tcc /usr/include/c++/15/limits

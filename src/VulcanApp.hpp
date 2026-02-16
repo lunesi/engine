@@ -1,4 +1,5 @@
 #pragma once
+#include <vulkan/vulkan_core.h>
 #define GLFW_INCLUDE_VULCAN
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -38,6 +39,12 @@ private:
   VkCommandPool commandPool;
   std::vector<VkCommandBuffer> commandBuffers;
   VkDescriptorPool imguiPool;
+
+  VkPipelineLayout pipelineLayout;
+  VkPipeline graphicsPipeline;
+  void createGraphicsPipeline();
+  static std::vector<char> readFile(const std::string &fileName);
+  VkShaderModule createShaderModule(const std::vector<char> &code);
 
   void initWindow();
   void initVulkan();
