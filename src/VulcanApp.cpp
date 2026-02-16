@@ -1,11 +1,13 @@
 #include "VulcanApp.hpp"
 #include <algorithm>
+#include <chrono>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
 #include <vector>
+#include <vulkan/vulkan_core.h>
 
 // --- ИНИЦИАЛИЗАЦИЯ ОКНА ---
 void VulcanApp::initWindow() {
@@ -238,6 +240,14 @@ void VulcanApp::createCommandBuffers() {
 // --- ОТРИСОВКА ---
 void VulcanApp::drawFrame() {
   uint32_t imageIndex;
+
+  static auto startTime = std::chrono::high_resolution_clock::now();
+  auto currentTime = std::chrono::high_resolution_clock::now();
+  float time = std::chrono::duration<float, std::chrono::seconds::period>(
+                   currentTime - startTime)
+                   .count();
+  float angle = time * 2.0f;
+
   // Ожидаем изображение из свопчейна
   VkResult result =
       vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, VK_NULL_HANDLE,
@@ -269,6 +279,10 @@ void VulcanApp::drawFrame() {
 
   vkCmdBindPipeline(commandBuffers[imageIndex], VK_PIPELINE_BIND_POINT_GRAPHICS,
                     graphicsPipeline);
+
+  vkCmdPushConstants(commandBuffers[imageIndex], pipelineLayout,
+                     VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &angle);
+
   vkCmdDraw(commandBuffers[imageIndex], 3, 1, 0, 0); // Рисуем 3 вершины
 
   vkCmdEndRenderPass(commandBuffers[imageIndex]);
@@ -464,18 +478,22 @@ void VulcanApp::createGraphicsPipeline() {
   colorBlending.blendConstants[3] = 0.0f;
 
   // 11. Pipeline Layout (настройки ресурсов для шейдеров)
+  VkPushConstantRange pushConstantRange{};
+  pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+  pushConstantRange.offset = 0;
+  pushConstantRange.size = sizeof(float);
+
   VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
   pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutInfo.setLayoutCount = 0;
   pipelineLayoutInfo.pSetLayouts = nullptr;
-  pipelineLayoutInfo.pushConstantRangeCount = 0;
-  pipelineLayoutInfo.pPushConstantRanges = nullptr;
+  pipelineLayoutInfo.pushConstantRangeCount = 1;
+  pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
   if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr,
                              &pipelineLayout) != VK_SUCCESS) {
-    throw std::runtime_error("failed to create pipeline layout!");
+    throw std::runtime_error("Failed to create pipeline layout.");
   }
-
   // 12. ФИНАЛЬНАЯ СБОРКА
   VkGraphicsPipelineCreateInfo pipelineInfo{};
   pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
