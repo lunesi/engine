@@ -4,6 +4,8 @@ engine: \
   /usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o \
   CMakeFiles/engine.dir/src/main.cpp.o \
   CMakeFiles/engine.dir/src/VulcanApp.cpp.o \
+  CMakeFiles/engine.dir/src/lve_window.cpp.o \
+  CMakeFiles/engine.dir/src/lve_pipeline.cpp.o \
   CMakeFiles/engine.dir/external/imgui/imgui.cpp.o \
   CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o \
   CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o \
@@ -50,6 +52,10 @@ engine: \
 CMakeFiles/engine.dir/src/main.cpp.o:
 
 CMakeFiles/engine.dir/src/VulcanApp.cpp.o:
+
+CMakeFiles/engine.dir/src/lve_window.cpp.o:
+
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.o:
 
 CMakeFiles/engine.dir/external/imgui/imgui.cpp.o:
 

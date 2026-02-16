@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "[/lib64/libvulkan.so][/usr/include][c missing components: glslc glslangValidator][v1.4.328()]"
+			"value" : "[/lib64/libvulkan.so][/usr/include][cfound components: glslc missing components: glslangValidator][v1.4.328()]"
 		},
 		{
 			"name" : "Vulkan_GLSLANG_VALIDATOR_EXECUTABLE",
@@ -1211,7 +1211,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "Vulkan_GLSLC_EXECUTABLE-NOTFOUND"
+			"value" : "/bin/glslc"
 		},
 		{
 			"name" : "Vulkan_INCLUDE_DIR",

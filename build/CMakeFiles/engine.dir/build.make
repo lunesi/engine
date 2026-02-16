@@ -100,10 +100,38 @@ CMakeFiles/engine.dir/src/VulcanApp.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/VulcanApp.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/siwagik/Projects/engine/src/VulcanApp.cpp -o CMakeFiles/engine.dir/src/VulcanApp.cpp.s
 
+CMakeFiles/engine.dir/src/lve_window.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/src/lve_window.cpp.o: /home/siwagik/Projects/engine/src/lve_window.cpp
+CMakeFiles/engine.dir/src/lve_window.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/src/lve_window.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/src/lve_window.cpp.o -MF CMakeFiles/engine.dir/src/lve_window.cpp.o.d -o CMakeFiles/engine.dir/src/lve_window.cpp.o -c /home/siwagik/Projects/engine/src/lve_window.cpp
+
+CMakeFiles/engine.dir/src/lve_window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/lve_window.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/siwagik/Projects/engine/src/lve_window.cpp > CMakeFiles/engine.dir/src/lve_window.cpp.i
+
+CMakeFiles/engine.dir/src/lve_window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/lve_window.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/siwagik/Projects/engine/src/lve_window.cpp -o CMakeFiles/engine.dir/src/lve_window.cpp.s
+
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.o: /home/siwagik/Projects/engine/src/lve_pipeline.cpp
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/engine.dir/src/lve_pipeline.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/src/lve_pipeline.cpp.o -MF CMakeFiles/engine.dir/src/lve_pipeline.cpp.o.d -o CMakeFiles/engine.dir/src/lve_pipeline.cpp.o -c /home/siwagik/Projects/engine/src/lve_pipeline.cpp
+
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/lve_pipeline.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/siwagik/Projects/engine/src/lve_pipeline.cpp > CMakeFiles/engine.dir/src/lve_pipeline.cpp.i
+
+CMakeFiles/engine.dir/src/lve_pipeline.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/lve_pipeline.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/siwagik/Projects/engine/src/lve_pipeline.cpp -o CMakeFiles/engine.dir/src/lve_pipeline.cpp.s
+
 CMakeFiles/engine.dir/external/imgui/imgui.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/imgui.cpp.o: /home/siwagik/Projects/engine/external/imgui/imgui.cpp
 CMakeFiles/engine.dir/external/imgui/imgui.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/imgui.cpp.o -MF CMakeFiles/engine.dir/external/imgui/imgui.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/imgui.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui.cpp
 
 CMakeFiles/engine.dir/external/imgui/imgui.cpp.i: cmake_force
@@ -117,7 +145,7 @@ CMakeFiles/engine.dir/external/imgui/imgui.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o: /home/siwagik/Projects/engine/external/imgui/imgui_draw.cpp
 CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o -MF CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui_draw.cpp
 
 CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.i: cmake_force
@@ -131,7 +159,7 @@ CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o: /home/siwagik/Projects/engine/external/imgui/imgui_widgets.cpp
 CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o -MF CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui_widgets.cpp
 
 CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.i: cmake_force
@@ -145,7 +173,7 @@ CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o: /home/siwagik/Projects/engine/external/imgui/imgui_tables.cpp
 CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o -MF CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui_tables.cpp
 
 CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.i: cmake_force
@@ -159,7 +187,7 @@ CMakeFiles/engine.dir/external/imgui/imgui_tables.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o: /home/siwagik/Projects/engine/external/imgui/imgui_demo.cpp
 CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o -MF CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui_demo.cpp
 
 CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.i: cmake_force
@@ -173,7 +201,7 @@ CMakeFiles/engine.dir/external/imgui/imgui_demo.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o: /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_glfw.cpp
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o -MF CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.o -c /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_glfw.cpp
 
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.i: cmake_force
@@ -187,7 +215,7 @@ CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_glfw.cpp.s: cmake_force
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o: /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_vulkan.cpp
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o -MF CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o.d -o CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.o -c /home/siwagik/Projects/engine/external/imgui/backends/imgui_impl_vulkan.cpp
 
 CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.i: cmake_force
@@ -202,6 +230,8 @@ CMakeFiles/engine.dir/external/imgui/backends/imgui_impl_vulkan.cpp.s: cmake_for
 engine_OBJECTS = \
 "CMakeFiles/engine.dir/src/main.cpp.o" \
 "CMakeFiles/engine.dir/src/VulcanApp.cpp.o" \
+"CMakeFiles/engine.dir/src/lve_window.cpp.o" \
+"CMakeFiles/engine.dir/src/lve_pipeline.cpp.o" \
 "CMakeFiles/engine.dir/external/imgui/imgui.cpp.o" \
 "CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o" \
 "CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o" \
@@ -215,6 +245,8 @@ engine_EXTERNAL_OBJECTS =
 
 engine: CMakeFiles/engine.dir/src/main.cpp.o
 engine: CMakeFiles/engine.dir/src/VulcanApp.cpp.o
+engine: CMakeFiles/engine.dir/src/lve_window.cpp.o
+engine: CMakeFiles/engine.dir/src/lve_pipeline.cpp.o
 engine: CMakeFiles/engine.dir/external/imgui/imgui.cpp.o
 engine: CMakeFiles/engine.dir/external/imgui/imgui_draw.cpp.o
 engine: CMakeFiles/engine.dir/external/imgui/imgui_widgets.cpp.o
@@ -227,7 +259,7 @@ engine: CMakeFiles/engine.dir/compiler_depend.ts
 engine: /lib64/libvulkan.so
 engine: /usr/lib64/libglfw.so.3.4
 engine: CMakeFiles/engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/siwagik/Projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

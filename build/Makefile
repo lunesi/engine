@@ -321,6 +321,54 @@ src/VulcanApp.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/VulcanApp.cpp.s
 .PHONY : src/VulcanApp.cpp.s
 
+src/lve_pipeline.o: src/lve_pipeline.cpp.o
+.PHONY : src/lve_pipeline.o
+
+# target to build an object file
+src/lve_pipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_pipeline.cpp.o
+.PHONY : src/lve_pipeline.cpp.o
+
+src/lve_pipeline.i: src/lve_pipeline.cpp.i
+.PHONY : src/lve_pipeline.i
+
+# target to preprocess a source file
+src/lve_pipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_pipeline.cpp.i
+.PHONY : src/lve_pipeline.cpp.i
+
+src/lve_pipeline.s: src/lve_pipeline.cpp.s
+.PHONY : src/lve_pipeline.s
+
+# target to generate assembly for a file
+src/lve_pipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_pipeline.cpp.s
+.PHONY : src/lve_pipeline.cpp.s
+
+src/lve_window.o: src/lve_window.cpp.o
+.PHONY : src/lve_window.o
+
+# target to build an object file
+src/lve_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_window.cpp.o
+.PHONY : src/lve_window.cpp.o
+
+src/lve_window.i: src/lve_window.cpp.i
+.PHONY : src/lve_window.i
+
+# target to preprocess a source file
+src/lve_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_window.cpp.i
+.PHONY : src/lve_window.cpp.i
+
+src/lve_window.s: src/lve_window.cpp.s
+.PHONY : src/lve_window.s
+
+# target to generate assembly for a file
+src/lve_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/lve_window.cpp.s
+.PHONY : src/lve_window.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -378,6 +426,12 @@ help:
 	@echo "... src/VulcanApp.o"
 	@echo "... src/VulcanApp.i"
 	@echo "... src/VulcanApp.s"
+	@echo "... src/lve_pipeline.o"
+	@echo "... src/lve_pipeline.i"
+	@echo "... src/lve_pipeline.s"
+	@echo "... src/lve_window.o"
+	@echo "... src/lve_window.i"
+	@echo "... src/lve_window.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

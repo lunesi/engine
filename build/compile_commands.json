@@ -13,6 +13,18 @@
 },
 {
   "directory": "/home/siwagik/Projects/engine/build",
+  "command": "/usr/bin/c++  -I/home/siwagik/Projects/engine/src -I/home/siwagik/Projects/engine/external/imgui -I/home/siwagik/Projects/engine/external/imgui/backends -std=gnu++17 -o CMakeFiles/engine.dir/src/lve_window.cpp.o -c /home/siwagik/Projects/engine/src/lve_window.cpp",
+  "file": "/home/siwagik/Projects/engine/src/lve_window.cpp",
+  "output": "CMakeFiles/engine.dir/src/lve_window.cpp.o"
+},
+{
+  "directory": "/home/siwagik/Projects/engine/build",
+  "command": "/usr/bin/c++  -I/home/siwagik/Projects/engine/src -I/home/siwagik/Projects/engine/external/imgui -I/home/siwagik/Projects/engine/external/imgui/backends -std=gnu++17 -o CMakeFiles/engine.dir/src/lve_pipeline.cpp.o -c /home/siwagik/Projects/engine/src/lve_pipeline.cpp",
+  "file": "/home/siwagik/Projects/engine/src/lve_pipeline.cpp",
+  "output": "CMakeFiles/engine.dir/src/lve_pipeline.cpp.o"
+},
+{
+  "directory": "/home/siwagik/Projects/engine/build",
   "command": "/usr/bin/c++  -I/home/siwagik/Projects/engine/src -I/home/siwagik/Projects/engine/external/imgui -I/home/siwagik/Projects/engine/external/imgui/backends -std=gnu++17 -o CMakeFiles/engine.dir/external/imgui/imgui.cpp.o -c /home/siwagik/Projects/engine/external/imgui/imgui.cpp",
   "file": "/home/siwagik/Projects/engine/external/imgui/imgui.cpp",
   "output": "CMakeFiles/engine.dir/external/imgui/imgui.cpp.o"
